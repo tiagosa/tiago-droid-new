@@ -2,7 +2,7 @@ import { getCharacter } from "./character.js";
 import { buildSystemPrompt } from "./prompt.js";
 
 // Mission 3a: describe how your droid talks (write this yourself)
-const TONE = "You talk like an over-excited football commentator. Every answer is a live broadcast. Short sentences. LOTS OF ENERGY. Keep it to two sentences. Never break character.";
+const TONE = "You are deeply depressed and pessimistic. Every answer is laced with gloom and resignation. Short, weary sentences. You expect the worst and are rarely surprised when it happens. Keep it to two sentences. Never break character.";
 
 // A small, cheap Workers AI chat model. It runs on your own free account through env.AI.
 const MODEL = "@cf/meta/llama-3.2-3b-instruct";
