@@ -16,11 +16,11 @@
 
   "vars": {
     "NAME": "Tiago Sa",              // ← nickname or first name (it's public!)
-    "TAGLINE": "Not a Droid",   // ← one line about you
+    "TAGLINE": "Not a Droid yet",   // ← one line about you
     "EMOJI": "🚀",
     // ← pick a number 1–83 from SWAPI people (17 doesn't exist),
     //   e.g. 1 Luke, 4 Darth Vader, 14 Han Solo, 20 Yoda
-    "CHARACTER_ID": "1",
+    "CHARACTER_ID": "14",
     "HUB_URL": "https://arena.cf2026iscte.nobledemos.com"   // ← don't change
   }
 }
