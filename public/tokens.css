@@ -1,0 +1,46 @@
+/*
+ * Noble Demos design system, adapted locally (no runtime dependency on that site).
+ * Source: apps/landing/src/developer-platform/page.js :root, body, .hero,
+ * .dashboard-link, .agent-terminal; cloudflare-one/page.js uses the same palette.
+ * The reference is light-only. Dark values extend the same warm ink/cream family.
+ */
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/jetbrains-mono-latin.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light dark;
+  --primary: light-dark(#f05a28, #ff8a4c);
+  --accent: light-dark(#f48120, #ffac62);
+  --ink: light-dark(#2a1a0f, #fdfaf3);
+  --fg: var(--ink);
+  --bg: light-dark(#f1e7d6, #1c1510);
+  --surface: light-dark(#fdfaf3, #281e17);
+  --surface-2: light-dark(#f5ebdb, #33261d);
+  --border: light-dark(#2a1a0f, #b8a28a);
+  --border-soft: light-dark(rgba(42,26,15,.18), rgba(253,250,243,.22));
+  --muted: light-dark(#6b5a4a, #c8b8a6);
+  --dim: light-dark(#a69481, #998675);
+  --good: light-dark(#2d8a4f, #94cc9f);
+  --warn: light-dark(#9c6b16, #efbd63);
+  /* Small text needs more contrast than the reference's presentation-size orange. */
+  --accent-text: light-dark(#af3c13, #ffa371);
+  --accent-wash: light-dark(rgba(240,90,40,.08), rgba(255,138,76,.10));
+  --good-wash: light-dark(#eaf1e4, #243024);
+  --warning-wash: light-dark(#fcf0d9, #35291b);
+  --grid-line: light-dark(rgba(42,26,15,.045), rgba(253,250,243,.045));
+  --shadow: 5px 5px 0 light-dark(rgba(240,90,40,.12), rgba(255,138,76,.12));
+  --shadow-strong: 8px 8px 0 light-dark(rgba(240,90,40,.16), rgba(255,138,76,.15));
+  --terminal: #21150e;
+  --terminal-fg: #fdfaf3;
+  --terminal-muted: #c8b8a6;
+  --terminal-accent: #ff8a3d;
+  --sidebar-width: 300px;
+  --font: 'JetBrains Mono', 'SF Mono', Menlo, Monaco, 'Cascadia Code', Consolas, monospace;
+}
+:root[data-theme=light] { color-scheme: light; }
+:root[data-theme=dark] { color-scheme: dark; }

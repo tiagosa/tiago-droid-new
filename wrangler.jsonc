@@ -1,0 +1,26 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Don't change "name": it ties this code to your deployed Worker.
+  "name": "tiago-droid-new",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-01",
+
+  // Static files in ./public (style.css) are served without running your code.
+  // Everything else ("/", "/api/*") goes to the Worker.
+  "assets": { "directory": "./public" },
+
+  // Workers AI binding: available in code as env.AI
+  "ai": { "binding": "AI" },
+
+  "observability": { "enabled": true },
+
+  "vars": {
+    "NAME": "Tiago Sa",              // ← nickname or first name (it's public!)
+    "TAGLINE": "Not a Droid",   // ← one line about you
+    "EMOJI": "🚀",
+    // ← pick a number 1–83 from SWAPI people (17 doesn't exist),
+    //   e.g. 1 Luke, 4 Darth Vader, 14 Han Solo, 20 Yoda
+    "CHARACTER_ID": "1",
+    "HUB_URL": "https://arena.cf2026iscte.nobledemos.com"   // ← don't change
+  }
+}

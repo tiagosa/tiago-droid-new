@@ -1,0 +1,189 @@
+/* Pre-built: you don't need to edit this.
+   The base look is the Hub / Lab Guide style (colours and font come from tokens.css).
+   Each homeworld theme (the class on <body>, picked in src/theme.js) sets two things:
+   --primary (the accent colour) and --scene (a CSS-only landscape behind your droid). */
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  background-image: radial-gradient(circle at 15% 0%, var(--accent-wash), transparent 45%), radial-gradient(circle at 95% 100%, var(--accent-wash), transparent 45%);
+  color: var(--fg);
+  font: 14px/1.75 var(--font);
+  --accent-wash: color-mix(in srgb, var(--primary) 12%, transparent);
+}
+::selection { background: var(--primary); color: #21150e; }
+code { padding: 2px 4px; border: 1px solid var(--border-soft); background: var(--surface-2); font-size: .9em; }
+.icon { width: 17px; height: 17px; vertical-align: middle; }
+
+/* Top bar and theme button */
+.topbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding: 14px 4%; background: var(--surface); border-top: 4px solid var(--primary); border-bottom: 1px solid var(--border); }
+.brand { min-width: 0; font-size: 18px; font-weight: 800; letter-spacing: -.04em; }
+.light { font-weight: 400; color: var(--muted); }
+.theme-button { flex: none; width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid var(--border); background: var(--surface); color: var(--fg); cursor: pointer; }
+.theme-button:hover { background: var(--surface-2); }
+.theme-button:focus-visible { outline: 3px solid var(--accent-text); outline-offset: 3px; }
+.theme-button .icon { display: none; }
+.theme-button[data-mode=system] .theme-system, .theme-button[data-mode=light] .theme-sun, .theme-button[data-mode=dark] .theme-moon { display: block; }
+
+main { flex: 1; width: 100%; max-width: 40rem; min-width: 0; margin: 0 auto; padding: 1.5rem 1rem .5rem; }
+
+/* The scene, the droid and the nameplate */
+.hero {
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem 1rem 1.5rem;
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow);
+  background: var(--scene);
+}
+.hero > * { position: relative; z-index: 1; }
+.droid-avatar { display: block; width: 128px; height: 128px; image-rendering: pixelated; background: #f5ebdb; border: 2px solid #2a1a0f; box-shadow: 4px 4px 0 rgba(0, 0, 0, .35); }
+.nameplate { min-width: 0; max-width: 100%; padding: .6rem 1.2rem; text-align: center; background: var(--surface); border: 2px solid var(--border); box-shadow: 3px 3px 0 var(--border-soft); }
+.nameplate h1 { margin: 0; font-size: clamp(22px, 6vw, 32px); line-height: 1.25; letter-spacing: -.04em; overflow-wrap: anywhere; }
+.nameplate p { margin: 0; color: var(--muted); overflow-wrap: anywhere; }
+
+/* The ID card */
+.card { max-width: 100%; margin-top: 1.25rem; padding: 1.25rem 1.5rem; background: var(--surface); border: 2px solid var(--border); border-top: 6px solid var(--primary); box-shadow: var(--shadow); }
+.card h2 { margin: 0 0 .75rem; color: var(--accent-text); font-size: 11px; letter-spacing: 1.3px; text-transform: uppercase; }
+dl { margin: 0; }
+dl div { display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: 1rem; padding: .35rem 0; border-bottom: 1px solid var(--border-soft); }
+dt { color: var(--muted); }
+dd { min-width: 0; margin: 0; font-weight: 700; overflow-wrap: anywhere; }
+dl div:last-child { border-bottom: 0; }
+.films { margin: 0; padding: 0; list-style: none; }
+.hint { margin: 0 0 .75rem; padding: .7rem 1rem; background: var(--warning-wash); border-left: 4px solid var(--warn); font-size: 12px; line-height: 1.7; }
+.hint small { display: block; margin-top: .25rem; color: var(--muted); }
+
+footer { padding: .75rem 1rem 1rem; text-align: center; color: var(--muted); font-size: 11px; }
+
+@media (max-width: 30rem) {
+  dl div { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .card { padding: 1rem; }
+}
+
+/* Themes. Each scene is only gradients: layers are "image position / size" (top layer first). */
+body.space {
+  --primary: #8a6cff;
+  --scene:
+    radial-gradient(1.5px 1.5px at 20% 30%, #fff, transparent),
+    radial-gradient(1px 1px at 70% 20%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 85% 65%, #fff, transparent),
+    radial-gradient(1px 1px at 35% 80%, #fff, transparent),
+    radial-gradient(1px 1px at 55% 55%, #fff, transparent),
+    radial-gradient(ellipse at 80% 10%, #3a2a7e, transparent 55%),
+    linear-gradient(#070a18, #121a44);
+}
+body.desert {
+  --primary: #e0702b;
+  --scene:
+    radial-gradient(circle at 78% 25%, #fff3b0 0 2.2rem, rgba(255, 220, 120, .4) 2.2rem 4rem, transparent 4.1rem),
+    radial-gradient(ellipse 80% 22% at 25% 100%, #c98a3d 0 99%, transparent 100%),
+    radial-gradient(ellipse 90% 28% at 90% 105%, #a56a28 0 99%, transparent 100%),
+    linear-gradient(#f4a259, #e5733a 60%, #7a3b1d);
+}
+body.ice {
+  --primary: #3d8fc4;
+  --scene:
+    radial-gradient(ellipse 60% 22% at 20% 100%, #f2fbff 0 99%, transparent 100%),
+    radial-gradient(ellipse 70% 28% at 80% 102%, #d3ecf8 0 99%, transparent 100%),
+    radial-gradient(circle at 80% 22%, rgba(255, 255, 255, .85) 0 1.4rem, transparent 1.5rem),
+    linear-gradient(#8fb8d8, #cfe8f5 70%, #eef8ff);
+}
+body.forest {
+  --primary: #3f9a58;
+  --scene:
+    repeating-linear-gradient(90deg, rgba(8, 40, 20, .5) 0 1.2rem, transparent 1.2rem 3rem) bottom / 100% 55% no-repeat,
+    radial-gradient(ellipse 80% 35% at 50% 100%, #0b3d1e, transparent 90%),
+    linear-gradient(#173d2a, #2f7a45 60%, #0b2a17);
+}
+body.ocean {
+  --primary: #1f8fd0;
+  --scene:
+    repeating-radial-gradient(ellipse 9rem 1.5rem at 50% 100%, rgba(255, 255, 255, .14) 0 .25rem, transparent .35rem 1.5rem),
+    radial-gradient(circle at 75% 20%, #fff7c2 0 1.6rem, transparent 1.7rem),
+    linear-gradient(#7fd0f0, #1f7fc0 45%, #0a3a6e);
+}
+body.grass {
+  --primary: #4c9a3a;
+  --scene:
+    radial-gradient(circle at 20% 22%, #fffbd0 0 1.8rem, transparent 1.9rem),
+    radial-gradient(ellipse 90% 25% at 30% 100%, #4c9a3a 0 99%, transparent 100%),
+    radial-gradient(ellipse 90% 30% at 90% 105%, #3b7d2d 0 99%, transparent 100%),
+    linear-gradient(#8ed1ff, #cdeeff 60%, #6fb85a);
+}
+body.city {
+  --primary: #d6407e;
+  --scene:
+    repeating-linear-gradient(90deg, #121a33 0 1.4rem, #0b1124 1.4rem 2rem, #1a2547 2rem 3.2rem, #0b1124 3.2rem 4rem) bottom / 100% 40% no-repeat,
+    repeating-linear-gradient(90deg, #2a2f5c 0 .9rem, transparent .9rem 2.3rem) bottom / 100% 60% no-repeat,
+    linear-gradient(#1a1040, #5a2d82 55%, #ff7aa8);
+}
+body.swamp {
+  --primary: #7a9a2e;
+  --scene:
+    /* reeds on the left and right bank */
+    repeating-linear-gradient(90deg, #1b2a12 0 .25rem, transparent .25rem .7rem) left bottom / 26% 62% no-repeat,
+    repeating-linear-gradient(90deg, #243818 0 .2rem, transparent .2rem .55rem) left bottom / 20% 42% no-repeat,
+    repeating-linear-gradient(90deg, #1b2a12 0 .25rem, transparent .25rem .8rem) right bottom / 26% 55% no-repeat,
+    repeating-linear-gradient(90deg, #243818 0 .2rem, transparent .2rem .6rem) right bottom / 18% 38% no-repeat,
+    /* the pale sun, and its reflection in the water */
+    radial-gradient(ellipse 5% 26% at 74% 82%, rgba(235, 240, 170, .4), transparent),
+    radial-gradient(circle at 74% 24%, #eef2b4 0 1.3rem, rgba(230, 240, 160, .3) 1.4rem 2.6rem, transparent 2.7rem),
+    /* ripples on murky water below a clear waterline */
+    repeating-linear-gradient(0deg, rgba(210, 230, 150, .16) 0 2px, transparent 2px 9px) bottom / 100% 36% no-repeat,
+    linear-gradient(#17261a, #2a4222) bottom / 100% 36% no-repeat,
+    linear-gradient(#6f7f47, #4a5a30 64%);
+}
+body.mountains {
+  --primary: #6a7fa8;
+  --scene:
+    conic-gradient(from 135deg at 50% 0, #55607a 0 90deg, transparent 90deg) left bottom / 65% 70% no-repeat,
+    conic-gradient(from 135deg at 50% 0, #3a4560 0 90deg, transparent 90deg) right bottom / 80% 55% no-repeat,
+    linear-gradient(#9fc4e8, #e8d9f0 70%, #f8e9d0);
+}
+body.lava {
+  --primary: #ff5a1f;
+  --scene:
+    radial-gradient(ellipse 70% 12% at 50% 100%, #ffb000 0 99%, transparent 100%),
+    radial-gradient(ellipse 100% 40% at 50% 100%, #ff4500, transparent 80%),
+    linear-gradient(#1a0505, #4a0e05 60%, #2a0a02);
+}
+body.gas {
+  --primary: #c9703a;
+  --scene:
+    radial-gradient(1.5px 1.5px at 12% 20%, #fff, transparent),
+    radial-gradient(1px 1px at 40% 12%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 28% 78%, #fff, transparent),
+    radial-gradient(1px 1px at 60% 85%, #fff, transparent),
+    linear-gradient(#0b0d26, #2a1b4d);
+}
+/* The planet disc and its ring sit behind the nameplate. --p is the planet's size. */
+body.gas .hero { --p: 11rem; }
+body.gas .hero::before,
+body.gas .hero::after { content: ""; position: absolute; }
+body.gas .hero::before {
+  top: 1rem; right: 1.5rem; width: var(--p); height: var(--p); border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 28%, rgba(255, 255, 255, .3), transparent 45%),
+    linear-gradient(#f3d9a8 0 10%, #d9985f 10% 19%, #f0c88f 19% 30%, #b86f4b 30% 38%, #e8b27a 38% 52%, #c98558 52% 60%, #f0d0a0 60% 72%, #a8603f 72% 82%, #d9985f 82%);
+  box-shadow: inset -1.8rem -1rem 2.5rem rgba(20, 5, 30, .55);
+}
+body.gas .hero::after {
+  top: calc(1rem + var(--p) * .275); right: calc(1.5rem - var(--p) * .4);
+  width: calc(var(--p) * 1.8); height: calc(var(--p) * .45);
+  border: .4rem solid rgba(240, 210, 160, .75); border-radius: 50%;
+  box-shadow: 0 0 0 .2rem rgba(150, 100, 70, .45), inset 0 0 0 .25rem rgba(150, 100, 70, .35);
+  transform: rotate(-16deg);
+}
+@media (max-width: 30rem) {
+  body.gas .hero { --p: 7.5rem; }
+}
