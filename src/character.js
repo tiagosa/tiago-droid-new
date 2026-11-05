@@ -1,31 +1,8 @@
-// MISSION 2: look up your Star Wars character on SWAPI.
-//
-// page.js (your ID card) and droid.js (your droid) both call getCharacter(CHARACTER_ID).
-// It must return exactly this shape (any "unknown" or "n/a" value becomes null):
-//
-// {
-//   name:      string,                 // "Luke Skywalker"
-//   height:    string | null,          // "172"       (cm)
-//   mass:      string | null,          // "77"        (kg)
-//   birthYear: string | null,          // "19BBY"
-//   gender:    string | null,          // "male"
-//   homeworld: {                       // or null if there is no homeworld
-//     name, climate, terrain, population   // all strings or null
-//   } | null,
-//   films:     string[],               // up to 3 film titles
-// }
-//
-// Steps:
-//   1. fetch https://swapi.dev/api/people/{id}/ with { cf: { cacheTtl: 86400, cacheEverything: true } }
-//      (SWAPI data never changes, so Cloudflare can cache it for 24 hours)
-//   2. if the response is not ok, or fetch throws, try https://swapi.info/api/people/{id} instead
-//   3. a SECOND fetch: person.homeworld is a URL, fetch it for the planet details.
-//      Only do it if the URL is on swapi.dev or swapi.info (never fetch a URL you don't trust)
-//   4. map the fields (SWAPI uses snake_case: birth_year). Turn "unknown" and "n/a" into null.
-//      person.films is a list of URLs: the number at the end is the film id, use FILM_TITLES below
-//   5. never throw: on any failure, return PLACEHOLDER
+// SOLUTION for Mission 2. Teacher's reference: copy over src/character.js.
+// Returns { name, height, mass, birthYear, gender, homeworld: { name, climate, terrain, population } | null, films }
+// and never throws: on any failure it returns PLACEHOLDER.
 
-// SWAPI's film ids, so you don't need a fetch per film.
+// SWAPI's film ids, so we don't need a fetch per film.
 const FILM_TITLES = {
   1: "A New Hope",
   2: "The Empire Strikes Back",
@@ -35,7 +12,6 @@ const FILM_TITLES = {
   6: "Revenge of the Sith",
 };
 
-// What the page shows until Mission 2 works. page.js shows a hint while isPlaceholder is true.
 const PLACEHOLDER = {
   isPlaceholder: true,
   name: "Unknown Droid",
@@ -47,7 +23,83 @@ const PLACEHOLDER = {
   films: [],
 };
 
+// SWAPI data never changes, so let Cloudflare cache every request for 24 hours.
+const CACHE = { cf: { cacheTtl: 86400, cacheEverything: true } };
+
+// GET a URL and return its JSON, or null if anything goes wrong.
+async function getJson(url) {
+  try {
+    const res = await fetch(url, { ...CACHE, signal: AbortSignal.timeout(2500) });
+    if (!res.ok) {
+      console.log("SWAPI request failed:", url, res.status);
+      return null;
+    }
+    return await res.json();
+  } catch (err) {
+    console.log("SWAPI request failed:", url, err.message);
+    return null;
+  }
+}
+
+// Only follow links to the SWAPI hosts.
+function isSwapiUrl(value) {
+  try {
+    const { protocol, hostname } = new URL(value);
+    return protocol === "https:" && (hostname === "swapi.dev" || hostname === "swapi.info");
+  } catch {
+    return false;
+  }
+}
+
+// SWAPI says "unknown" (or "n/a") when it doesn't know.
+function clean(value) {
+  if (value === undefined || value === null) return null;
+  const text = String(value).trim();
+  return text === "" || text === "unknown" || text === "n/a" ? null : text;
+}
+
 export async function getCharacter(id) {
-  // Mission 2: fetch the real character from SWAPI
-  return PLACEHOLDER;
+  try {
+    const safeId = encodeURIComponent(String(id ?? "").trim());
+    if (!safeId) return PLACEHOLDER;
+
+    // 1 + 2: swapi.dev first, swapi.info as the fallback
+    let person = await getJson(`https://swapi.dev/api/people/${safeId}/`);
+    if (!person?.name) person = await getJson(`https://swapi.info/api/people/${safeId}`);
+    if (!person?.name) return PLACEHOLDER;
+
+    // 3: the second fetch, for the homeworld
+    let homeworld = null;
+    if (isSwapiUrl(person.homeworld)) {
+      const planet = await getJson(person.homeworld);
+      if (planet) {
+        homeworld = {
+          name: clean(planet.name),
+          climate: clean(planet.climate),
+          terrain: clean(planet.terrain),
+          population: clean(planet.population),
+        };
+      }
+    }
+
+    // 4: the film id is the number at the end of each film URL
+    const films = (Array.isArray(person.films) ? person.films : [])
+      .map((url) => FILM_TITLES[String(url).match(/(\d+)\/?$/)?.[1]])
+      .filter(Boolean)
+      .slice(0, 3);
+
+    return {
+      name: person.name,
+      height: clean(person.height),
+      mass: clean(person.mass),
+      birthYear: clean(person.birth_year),
+      gender: clean(person.gender),
+      homeworld,
+      films,
+    };
+  } catch (err) {
+    // 5: never throw
+    console.log("getCharacter failed:", err.message);
+    return PLACEHOLDER;
+  }
 }
