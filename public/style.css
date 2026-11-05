@@ -63,6 +63,17 @@ dl div:last-child { border-bottom: 0; }
 .hint { margin: 0 0 .75rem; padding: .7rem 1rem; background: var(--warning-wash); border-left: 4px solid var(--warn); font-size: 12px; line-height: 1.7; }
 .hint small { display: block; margin-top: .25rem; color: var(--muted); }
 
+/* Ask-my-droid box */
+.ask-box { margin-top: .9rem; text-align: left; }
+.ask-label { display: block; margin-bottom: .35rem; font-size: 11px; letter-spacing: 1.1px; text-transform: uppercase; color: var(--accent-text); font-weight: 700; }
+.ask-row { display: flex; gap: .4rem; }
+.ask-input { flex: 1; min-width: 0; padding: .4rem .6rem; border: 1px solid var(--border); background: var(--surface-2); color: var(--fg); font: inherit; font-size: 13px; }
+.ask-input:focus { outline: 2px solid var(--primary); outline-offset: 1px; }
+.ask-btn { flex: none; padding: .4rem .85rem; border: 1px solid var(--border); background: var(--primary); color: #fff; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+.ask-btn:hover:not(:disabled) { opacity: .88; }
+.ask-btn:disabled { opacity: .5; cursor: default; }
+.ask-answer { margin: .5rem 0 0; font-size: 13px; color: var(--fg); min-height: 1.4em; overflow-wrap: anywhere; }
+
 footer { padding: .75rem 1rem 1rem; text-align: center; color: var(--muted); font-size: 11px; }
 
 @media (max-width: 30rem) {

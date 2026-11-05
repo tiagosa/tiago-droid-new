@@ -77,6 +77,14 @@ export function renderPage(env, character, colo, origin) {
       <div class="nameplate">
         <h1>${name} <span aria-hidden="true">${emoji}</span></h1>
         <p>${tagline}</p>
+        <div class="ask-box">
+          <label for="ask-input" class="ask-label">Ask my droid</label>
+          <div class="ask-row">
+            <input id="ask-input" class="ask-input" type="text" placeholder="Type a question…" autocomplete="off">
+            <button id="ask-btn" class="ask-btn" type="button">Ask</button>
+          </div>
+          <p id="ask-answer" class="ask-answer" aria-live="polite"></p>
+        </div>
       </div>
     </section>
     <section class="card" aria-label="Droid ID card">
@@ -97,6 +105,7 @@ export function renderPage(env, character, colo, origin) {
   <footer>Served from ${esc(colo)}${localNote}</footer>
   <script src="/theme-toggle.js" defer></script>
   <script src="/avatars.js" defer></script>
+  <script src="/ask.js" defer></script>
 </body>
 </html>`;
 }
